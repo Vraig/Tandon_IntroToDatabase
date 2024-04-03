@@ -111,7 +111,7 @@ CREATE TABLE `order` (
   `instructions` varchar(100) DEFAULT NULL,
   `weight` DECIMAL(5,2) DEFAULT NULL,
   `purchase_date_time` VARCHAR(16) DEFAULT NULL,
-  `purchase_status` VARCHAR(20) DEFAULT NULL,
+  `purchase_status` VARCHAR(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -132,7 +132,7 @@ ALTER TABLE `delivery_route`
 
 -- indexes for table order
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_ID`);
+  ADD PRIMARY KEY (`order_ID`),
   ADD KEY `route_ID` (`route_ID`);
 
 --constraints for table order
