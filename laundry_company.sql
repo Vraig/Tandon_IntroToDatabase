@@ -56,12 +56,13 @@ CREATE TABLE `delivery_route` (
 --
 
 CREATE TABLE `delivery_truck` (
-  `identification_number` varchar(2) DEFAULT NULL,
+  `identification_number` varchar(2) NOT NULL,
   `order_capacity` varchar(3) DEFAULT NULL,
   `manufacturing_company` varchar(20) DEFAULT NULL,
   `model_number` varchar(20) DEFAULT NULL,
   `manufacturing_date` varchar(6) DEFAULT NULL,
-  `age` varchar(2) DEFAULT NULL
+  `age` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -101,17 +102,20 @@ CREATE TABLE `laundry_facility` (
 CREATE TABLE `order` (
   `order_ID` varchar(8) NOT NULL,
   `email_address` varchar(63) DEFAULT NULL,
-  `delivery_date_time` varchar(6) DEFAULT NULL,
-  `price` decimal(3,2) DEFAULT NULL,
+  `delivery_date_time` varchar(16) DEFAULT NULL,
+  `price` decimal(5,2) DEFAULT NULL,
   `order_status` varchar(20) DEFAULT NULL,
-  `pickup_date_time` varchar(6) DEFAULT NULL,
-  `address` varchar(6) DEFAULT NULL,
+  `pickup_date_time` varchar(16) DEFAULT NULL,
+  `address` varchar(30) DEFAULT NULL,
   `route_ID` varchar(8) DEFAULT NULL,
-  `instructions` varchar(20) DEFAULT NULL,
-  weight DECIMAL(5,2) DEFAULT NULL,
-  purchase_date_time VARCHAR(6) DEFAULT NULL,
-  purchase_status VARCHAR(20) DEFAULT NULL
+  `instructions` varchar(100) DEFAULT NULL,
+  `weight` DECIMAL(5,2) DEFAULT NULL,
+  `purchase_date_time` VARCHAR(16) DEFAULT NULL,
+  `purchase_status` VARCHAR(20) DEFAULT NULL,
+  PRIMARY KEY (`order_ID`),
+  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -127,17 +131,7 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `delivery_route`
   ADD PRIMARY KEY (`route_ID`);
-
---
--- Indexes and constraints for table `order`
---
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_ID`),
-  ADD KEY `route_ID` (`route_ID`);
-
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`);
-
+  
 -- Insert a facility named "Laundromat_1"
 INSERT INTO laundry_facility (name, address, machines) VALUES ('Laundromat_1', '123 Clean Street', 10);
 
@@ -147,17 +141,17 @@ INSERT INTO laundry_company_staff (password, username, first_name, last_name, da
 ('vraigSecurePass', 'vraiguser', 'Vraig', 'DeLeon', '1992-02-02', '555-0202', 'vraig.deleon@laundryco.com'),
 ('danielSecurePass', 'danieluser', 'Daniel', 'Brown', '1994-03-03', '555-0303', 'daniel.brown@laundryco.com');
 
-
 -- Insert at least 3 customer records with email address, password, first name, last name, address, phone number, and date of birth
 INSERT INTO customer (email_address, password, first_name, last_name, address, phone_number, date_of_birth) VALUES 
 ('alice.brown@email.com', 'alicePass123', 'Alice', 'Brown', '456 Oak Street', '555-0444', '1978-05-21'),
 ('bob.johnson@email.com', 'bobPass123', 'Bob', 'Johnson', '789 Pine Street', '555-0555', '1985-07-12'),
 ('carol.smith@email.com', 'carolPass123', 'Carol', 'Smith', '321 Maple Street', '555-0666', '1990-09-03');
 
-
 -- Insert at least 1 delivery truck record with identification number, order capacity, manufacturing company, model number, manufacturing date, and age
 INSERT INTO delivery_truck (identification_number, order_capacity, manufacturing_company, model_number, manufacturing_date, age) VALUES 
-('01', '500', 'TruckCorp', 'XLT', '201901', '03');
+('01', '500', 'TruckCorp', 'XLT', '201901', '03'),
+('02', '750', 'TruckCorp', 'XLT', '201902', '02'),
+('03', '1000', 'TruckCorp', 'XLT', '201903', '01');
 
 -- Insert several routes and purchase records
 INSERT INTO delivery_route (route_ID, identification_number, name) VALUES 
@@ -166,13 +160,11 @@ INSERT INTO delivery_route (route_ID, identification_number, name) VALUES
 ('R003', '03', 'East Route');
 
 -- Insert orders along with purchase records into the 'order' table
--- Insert orders along with purchase records into the 'order' table
-INSERT INTO "order" (order_ID, email_address, delivery_date_time, price, order_status, pickup_date_time, address, route_ID, instructions, weight, purchase_date_time, purchase_status) VALUES
-('ORD001', 'customer@example.com', '2024-04-10 10:00', 19.99, 'Out for Delivery', '2024-04-09 09:00', 'ADDR001', 'R001', 'Leave at front door', 15.5, '2024-04-09 08:00', 'Completed'),
-('ORD002', 'customer@example.com', '2024-04-11 14:00', 29.99, 'Awaiting Pickup', '2024-04-10 13:00', 'ADDR002', 'R002', 'Ring upon arrival', 10.0, '2024-04-10 12:00', 'Pending'),
-('ORD003', 'customer@example.com', '2024-04-12 16:00', 39.99, 'Delivered', '2024-04-11 15:00', 'ADDR003', 'R003', 'No signature required', 20.0, '2024-04-11 14:00', 'Completed');
+INSERT INTO `order` (order_ID, email_address, delivery_date_time, price, order_status, pickup_date_time, address, route_ID, instructions, weight, purchase_date_time, purchase_status) VALUES
+('ORD001', 'alice.brown@email.com', '2024-04-10 10:00', 19.99, 'Out for Delivery', '2024-04-09 09:00', '456 Oak Street', 'R001', 'Leave at front door', 15.5, '2024-04-09 08:00', 'Completed'),
+('ORD002', 'bob.johnson@email.com', '2024-04-11 14:00', 29.99, 'Awaiting Pickup', '2024-04-10 13:00', '789 Pine Street', 'R002', 'Ring upon arrival', 10.0, '2024-04-10 12:00', 'Pending'),
+('ORD003', 'carol.smith@email.com', '2024-04-12 16:00', 39.99, 'Delivered', '2024-04-11 15:00', '321 Maple Street', 'R003', 'No signature required', 20.0, '2024-04-11 14:00', 'Completed');
 
--- Cannot add or update a child row: a foreign key constraint fails (`laundry_company_test`.`order`, CONSTRAINT `order_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`))
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
