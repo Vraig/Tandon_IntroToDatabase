@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 --
 CREATE TABLE `customer` (
   `email_address` varchar(63) NOT NULL,
+  `password` varchar(20) DEFAULT NULL,
   `first_name` varchar(20) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
   `address` varchar(30) DEFAULT NULL,
