@@ -108,11 +108,10 @@ CREATE TABLE `order` (
   `address` varchar(6) DEFAULT NULL,
   `route_ID` varchar(8) DEFAULT NULL,
   `instructions` varchar(20) DEFAULT NULL,
-  'weight' DECIMAL(3,2) DEFAULT NULL,
-  'purchase_date_time' VARCHAR(6) DEFAULT NULL,
-  'purchase_status' VARCHAR(20) DEFAULT NULL
+  weight DECIMAL(5,2) DEFAULT NULL,
+  purchase_date_time VARCHAR(6) DEFAULT NULL,
+  purchase_status VARCHAR(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 --
 -- Indexes for dumped tables
 --
@@ -170,8 +169,6 @@ INSERT INTO `order` (order_ID, email_address, delivery_date_time, price, order_s
 ('ORD001', 'customer@example.com', '2024-04-10 10:00', 19.99, 'Out for Delivery', '2024-04-09 09:00', 'ADDR001', 'RT001', 'Leave at front door', 15.5, '2024-04-09 08:00', 'Completed'),
 ('ORD002', 'customer@example.com', '2024-04-11 14:00', 29.99, 'Awaiting Pickup', '2024-04-10 13:00', 'ADDR002', 'RT002', 'Ring upon arrival', 10.0, '2024-04-10 12:00', 'Pending'),
 ('ORD003', 'customer@example.com', '2024-04-12 16:00', 39.99, 'Delivered', '2024-04-11 15:00', 'ADDR003', 'RT003', 'No signature required', 20.0, '2024-04-11 14:00', 'Completed');
-
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
