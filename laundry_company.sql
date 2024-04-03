@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `customer` (
   `email_address` varchar(63) NOT NULL,
+  `password` varchar(20) DEFAULT NULL,
   `first_name` varchar(20) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
   `address` varchar(30) DEFAULT NULL,
@@ -154,7 +155,7 @@ INSERT INTO laundry_company_staff (password, username, first_name, last_name, da
 
 
 -- Insert at least 3 customer records with email address, password, first name, last name, address, phone number, and date of birth
-INSERT INTO Customer (email_address, password, first_name, last_name, address, phone_number, date_of_birth) VALUES 
+INSERT INTO customer (email_address, password, first_name, last_name, address, phone_number, date_of_birth) VALUES 
 ('alice.brown@email.com', 'alicePass123', 'Alice', 'Brown', '456 Oak Street', '555-0444', '1978-05-21'),
 ('bob.johnson@email.com', 'bobPass123', 'Bob', 'Johnson', '789 Pine Street', '555-0555', '1985-07-12'),
 ('carol.smith@email.com', 'carolPass123', 'Carol', 'Smith', '321 Maple Street', '555-0666', '1990-09-03');
