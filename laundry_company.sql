@@ -133,7 +133,7 @@ ALTER TABLE `delivery_route`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`order_ID`),
-  ADD KEY `route_ID` (`route_ID`);
+  ADD KEY `route_ID` (`route_ID`),
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`);
 
 
