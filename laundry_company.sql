@@ -112,8 +112,6 @@ CREATE TABLE `order` (
   `weight` DECIMAL(5,2) DEFAULT NULL,
   `purchase_date_time` VARCHAR(16) DEFAULT NULL,
   `purchase_status` VARCHAR(20) DEFAULT NULL,
-  PRIMARY KEY (`order_ID`),
-  CONSTRAINT `order_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -131,6 +129,15 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `delivery_route`
   ADD PRIMARY KEY (`route_ID`);
+
+-- indexes for table order
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`order_ID`);
+  ADD KEY `route_ID` (`route_ID`);
+
+--constraints for table order
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_table_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`);
   
 -- Insert a facility named "Laundromat_1"
 INSERT INTO `laundry_facility` (`name`, `address`, `machines`) VALUES ('Laundromat_1', '123 Clean Street', 10);
@@ -165,6 +172,7 @@ INSERT INTO `order` (`order_ID`, `email_address`, `delivery_date_time`, `price`,
 ('ORD002', 'bob.johnson@email.com', '2024-04-11 14:00', 29.99, 'Awaiting Pickup', '2024-04-10 13:00', '789 Pine Street', 'R002', 'Ring upon arrival', 10.0, '2024-04-10 12:00', 'Pending'),
 ('ORD003', 'carol.smith@email.com', '2024-04-12 16:00', 39.99, 'Delivered', '2024-04-11 15:00', '321 Maple Street', 'R003', 'No signature required', 20.0, '2024-04-11 14:00', 'Completed');
 
+COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
