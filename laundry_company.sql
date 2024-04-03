@@ -141,7 +141,40 @@ ALTER TABLE `order_table`
 --
 ALTER TABLE `order_table`
   ADD CONSTRAINT `order_table_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`);
-COMMIT;
+
+
+-- Insert a facility named "Laundromat_1"
+INSERT INTO laundry_facility (name, address, machines) VALUES ('Laundromat_1', '123 Clean Street', 10);
+
+-- Insert three laundry company staff with password, username, first name, last name, date of birth, phone number, and email address
+INSERT INTO laundry_company_staff (password, username, first_name, last_name, date_of_birth, phone_number, email_address) VALUES 
+('henrySecurePass', 'henryuser', 'Henry', 'Simon', '1990-01-01', '555-0101', 'henry.simon@laundryco.com'),
+('vraigSecurePass', 'vraiguser', 'Vraig', 'DeLeon', '1992-02-02', '555-0202', 'vraig.deleon@laundryco.com'),
+('danielSecurePass', 'danieluser', 'Daniel', 'Brown', '1994-03-03', '555-0303', 'daniel.brown@laundryco.com');
+
+
+-- Insert at least 3 customer records with email address, password, first name, last name, address, phone number, and date of birth
+INSERT INTO Customer (email_address, password, first_name, last_name, address, phone_number, date_of_birth) VALUES 
+('alice.brown@email.com', 'alicePass123', 'Alice', 'Brown', '456 Oak Street', '555-0444', '1978-05-21'),
+('bob.johnson@email.com', 'bobPass123', 'Bob', 'Johnson', '789 Pine Street', '555-0555', '1985-07-12'),
+('carol.smith@email.com', 'carolPass123', 'Carol', 'Smith', '321 Maple Street', '555-0666', '1990-09-03');
+
+
+-- Insert at least 1 delivery truck record with identification number, order capacity, manufacturing company, model number, manufacturing date, and age
+INSERT INTO delivery_truck (identification_number, order_capacity, manufacturing_company, model_number, manufacturing_date, age) VALUES 
+('01', '500', 'TruckCorp', 'XLT', '201901', '03');
+
+-- Insert several routes and purchase records
+INSERT INTO delivery_route (route_ID, identification_number, name) VALUES 
+('R001', '01', 'North Route'),
+('R002', '02', 'South Route'),
+('R003', '03', 'East Route');
+
+INSERT INTO order_table (order_ID, email_address, delivery_date_time, price, order_status, route_ID, address) VALUES 
+('O001', 'alice.brown@email.com', '12 PM', 59.99, 'Pending', 'R001', '456 Oak Street'),
+('O002', 'bob.johnson@email.com', '2 PM', 39.99, 'Pending', 'R002', '789 Pine Street');
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
