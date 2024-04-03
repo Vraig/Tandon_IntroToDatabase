@@ -26,10 +26,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `customer`
 --
-
 CREATE TABLE `customer` (
   `email_address` varchar(63) NOT NULL,
-  `password` varchar(20) DEFAULT NULL,
   `first_name` varchar(20) DEFAULT NULL,
   `last_name` varchar(20) DEFAULT NULL,
   `address` varchar(30) DEFAULT NULL,
@@ -56,13 +54,12 @@ CREATE TABLE `delivery_route` (
 --
 
 CREATE TABLE `delivery_truck` (
-  `identification_number` varchar(2) NOT NULL,
+  `identification_number` varchar(2) DEFAULT NULL,
   `order_capacity` varchar(3) DEFAULT NULL,
   `manufacturing_company` varchar(20) DEFAULT NULL,
   `model_number` varchar(20) DEFAULT NULL,
   `manufacturing_date` varchar(6) DEFAULT NULL,
-  `age` varchar(2) DEFAULT NULL,
-  PRIMARY KEY (`identification_number`)
+  `age` varchar(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -96,22 +93,22 @@ CREATE TABLE `laundry_facility` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `order_table`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `order_table` (
   `order_ID` varchar(8) NOT NULL,
   `email_address` varchar(63) DEFAULT NULL,
-  `delivery_date_time` varchar(16) DEFAULT NULL,
-  `price` decimal(5,2) DEFAULT NULL,
+  `delivery_date_time` varchar(6) DEFAULT NULL,
+  `price` decimal(3,2) DEFAULT NULL,
   `order_status` varchar(20) DEFAULT NULL,
-  `pickup_date_time` varchar(16) DEFAULT NULL,
-  `address` varchar(30) DEFAULT NULL,
+  `pickup_date_time` varchar(6) DEFAULT NULL,
+  `address` varchar(6) DEFAULT NULL,
   `route_ID` varchar(8) DEFAULT NULL,
-  `instructions` varchar(100) DEFAULT NULL,
-  `weight` DECIMAL(5,2) DEFAULT NULL,
-  `purchase_date_time` VARCHAR(16) DEFAULT NULL,
-  `purchase_status` VARCHAR(20) DEFAULT NULL
+  `instructions` varchar(20) DEFAULT NULL,
+  `weight` decimal(3,1) DEFAULT NULL,
+  `purchase_date_time` varchar(6) DEFAULT NULL,
+  `purchase_status` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -130,15 +127,22 @@ ALTER TABLE `customer`
 ALTER TABLE `delivery_route`
   ADD PRIMARY KEY (`route_ID`);
 
--- indexes for table order
-ALTER TABLE `order`
+--
+-- Indexes for table `order_table`
+--
+ALTER TABLE `order_table`
   ADD PRIMARY KEY (`order_ID`),
   ADD KEY `route_ID` (`route_ID`);
 
---constraints for table order
-ALTER TABLE `order`
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `order_table`
+--
+ALTER TABLE `order_table`
   ADD CONSTRAINT `order_table_ibfk_1` FOREIGN KEY (`route_ID`) REFERENCES `delivery_route` (`route_ID`);
-  
 -- Insert a facility named "Laundromat_1"
 INSERT INTO `laundry_facility` (`name`, `address`, `machines`) VALUES ('Laundromat_1', '123 Clean Street', 10);
 
@@ -167,7 +171,7 @@ INSERT INTO `delivery_route` (`route_ID`, `identification_number`, `name`) VALUE
 ('R003', '03', 'East Route');
 
 -- Insert orders along with purchase records into the 'order' table
-INSERT INTO `order` (`order_ID`, `email_address`, `delivery_date_time`, `price`, `order_status`, `pickup_date_time`, `address`, `route_ID`, `instructions`, `weight`, `purchase_date_time`, `purchase_status`) VALUES
+INSERT INTO `order_table` (`order_ID`, `email_address`, `delivery_date_time`, `price`, `order_status`, `pickup_date_time`, `address`, `route_ID`, `instructions`, `weight`, `purchase_date_time`, `purchase_status`) VALUES
 ('ORD001', 'alice.brown@email.com', '2024-04-10 10:00', 19.99, 'Out for Delivery', '2024-04-09 09:00', '456 Oak Street', 'R001', 'Leave at front door', 15.5, '2024-04-09 08:00', 'Completed'),
 ('ORD002', 'bob.johnson@email.com', '2024-04-11 14:00', 29.99, 'Awaiting Pickup', '2024-04-10 13:00', '789 Pine Street', 'R002', 'Ring upon arrival', 10.0, '2024-04-10 12:00', 'Pending'),
 ('ORD003', 'carol.smith@email.com', '2024-04-12 16:00', 39.99, 'Delivered', '2024-04-11 15:00', '321 Maple Street', 'R003', 'No signature required', 20.0, '2024-04-11 14:00', 'Completed');
